@@ -1,0 +1,229 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary: #ff3f6c; /* Myntra Pink */
+    --secondary: #282c3f; /* AJIO Dark */
+    --bg-main: #ffffff;
+    --bg-light: #f5f5f6;
+    --text-main: #282c3f;
+    --text-muted: #7e818c;
+    --border: #eaeaec;
+    --accent: #03a685; /* Success Green */
+    --shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background: var(--bg-main);
+    color: var(--text-main);
+    overflow-x: hidden;
+}
+
+/* Navbar - AJIO style */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 4%;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    color: var(--secondary);
+}
+
+.nav-links {
+    display: flex;
+    gap: 2.5rem;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.nav-links a {
+    color: var(--secondary);
+    letter-spacing: 1px;
+}
+
+.nav-links a:hover {
+    color: var(--primary);
+}
+
+/* Hero - Myntra Style */
+.hero {
+    height: 70vh;
+    background: linear-gradient(135deg, #fff5f7 0%, #fff 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle background pattern */
+.hero::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
+    opacity: 0.03;
+    pointer-events: none;
+}
+
+.hero h1 {
+    font-size: 4.5rem;
+    color: var(--secondary);
+    margin-bottom: 1rem;
+    font-weight: 800;
+}
+
+.hero h1 span {
+    color: var(--primary);
+}
+
+.hero p {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin-bottom: 2.5rem;
+}
+
+.btn {
+    padding: 1rem 2.5rem;
+    border-radius: 4px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.2s;
+    border: none;
+    display: inline-block;
+    letter-spacing: 1px;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #e63962;
+    transform: scale(1.02);
+}
+
+/* Section Styling */
+section {
+    padding: 4rem 4%;
+}
+
+.section-title {
+    font-size: 1.8rem;
+    margin-bottom: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1rem;
+}
+
+/* Product Cards - Myntra/AJIO Grid */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 2.5rem;
+}
+
+.product-card {
+    border: 1px solid transparent;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.product-card:hover {
+    box-shadow: var(--shadow);
+    border-color: var(--border);
+}
+
+.product-image {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    margin-bottom: 0.8rem;
+}
+
+.product-info {
+    padding: 0.5rem;
+}
+
+.product-info h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+}
+
+.product-info .brand {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+}
+
+.product-info .price {
+    font-weight: 700;
+    color: var(--secondary);
+}
+
+/* Payment Methods UI */
+.payment-methods {
+    margin-top: 2rem;
+}
+
+.payment-option {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.payment-option:hover {
+    border-color: var(--primary);
+    background: #fff5f7;
+}
+
+.payment-option.active {
+    border-color: var(--primary);
+    background: #fff5f7;
+}
+
+.payment-option i {
+    font-size: 1.5rem;
+    color: var(--text-muted);
+}
+
+.payment-option.active i {
+    color: var(--primary);
+}
+
+footer {
+    background: var(--bg-light);
+    padding: 4rem 4%;
+    margin-top: 5rem;
+}

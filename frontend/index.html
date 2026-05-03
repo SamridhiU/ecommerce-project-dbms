@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura - Premium Tech & Fashion</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav>
+        <div class="logo">AURA</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="shop.html">Shop</a>
+            <a href="#">Categories</a>
+            <a href="profile.html">My Orders</a>
+        </div>
+        <div class="nav-actions">
+            <a href="login.html"><i class="fas fa-user"></i></a>
+            <div class="cart-icon">
+                <a href="cart.html"><i class="fas fa-shopping-cart"></i></a>
+                <span class="cart-count" id="cart-count">0</span>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero animate">
+        <div style="position: absolute; width: 300px; height: 300px; background: #ff3f6c10; border-radius: 50%; top: -100px; left: -100px; filter: blur(50px);"></div>
+        <div style="position: absolute; width: 400px; height: 400px; background: #03a68508; border-radius: 50%; bottom: -150px; right: -150px; filter: blur(70px);"></div>
+        
+        <p style="text-transform: uppercase; letter-spacing: 4px; font-weight: 700; color: var(--primary); margin-bottom: 0;">Summer Collection 2026</p>
+        <h1>Flat <span>50% OFF</span> on Premium Tech</h1>
+        <p>Grab the latest gadgets and fashion essentials at unbeatable prices. Inspired by the best of Myntra & AJIO.</p>
+        <div class="hero-btns">
+            <a href="shop.html" class="btn btn-primary">Shop Now</a>
+            <a href="#featured" class="btn" style="margin-left: 1rem; border: 1px solid var(--secondary);">Explore More</a>
+        </div>
+    </header>
+
+    <section id="featured">
+        <h2 class="section-title">Shop by Category</h2>
+        <div class="grid" id="categories-grid">
+            <!-- Categories will be loaded here -->
+        </div>
+    </section>
+
+    <section>
+        <div class="glass" style="padding: 4rem; display: flex; align-items: center; justify-content: space-between; gap: 2rem;">
+            <div>
+                <h2 style="font-size: 2.5rem; margin-bottom: 1rem;">Newsletter</h2>
+                <p color="var(--text-muted)">Get 10% off your first order by subscribing to our newsletter.</p>
+            </div>
+            <div style="display: flex; gap: 1rem; flex: 1; max-width: 500px;">
+                <input type="email" placeholder="Enter your email" class="glass" style="flex: 1; padding: 1rem; border-radius: 8px; color: white;">
+                <button class="btn btn-primary">Subscribe</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div>
+                <div class="logo" style="margin-bottom: 1rem;">AURA</div>
+                <p color="var(--text-muted)">Crafting the best shopping experience for the modern digital era.</p>
+            </div>
+            <div>
+                <h4>Quick Links</h4>
+                <ul style="margin-top: 1rem; color: var(--text-muted)">
+                    <li><a href="shop.html">Browse Products</a></li>
+                    <li><a href="login.html">Account</a></li>
+                    <li><a href="#">Support</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Socials</h4>
+                <div style="margin-top: 1rem; font-size: 1.5rem; display: flex; gap: 1rem; justify-content: center;">
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-facebook"></i>
+                </div>
+            </div>
+        </div>
+        <p>&copy; 2026 Aura E-commerce. All rights reserved.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const response = await fetch('http://localhost:5000/api/categories');
+                const categories = await response.json();
+                const grid = document.getElementById('categories-grid');
+                
+                grid.innerHTML = categories.map(cat => `
+                    <div class="glass product-card animate" style="cursor: pointer;" onclick="window.location.href='shop.html?category=${cat.id}'">
+                        <img src="${cat.image_url}" alt="${cat.name}" class="product-image">
+                        <div class="product-info">
+                            <h3>${cat.name}</h3>
+                            <p style="color: var(--text-muted)">${cat.description}</p>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (err) {
+                console.error('Error loading categories:', err);
+            }
+            updateCartCount();
+        });
+    </script>
+</body>
+</html>

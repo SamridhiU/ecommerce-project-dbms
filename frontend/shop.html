@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - Aura Premium</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav>
+        <div class="logo">AURA</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="shop.html">Shop</a>
+            <a href="profile.html">My Orders</a>
+        </div>
+        <div class="nav-actions">
+            <a href="login.html"><i class="fas fa-user"></i></a>
+            <div class="cart-icon">
+                <a href="cart.html"><i class="fas fa-shopping-cart"></i></a>
+                <span class="cart-count" id="cart-count">0</span>
+            </div>
+        </div>
+    </nav>
+
+    <section>
+        <header style="margin-bottom: 3rem;">
+            <h1 class="section-title" style="text-align: left;">Explore Our <span>Collection</span></h1>
+            <div class="glass" style="padding: 1rem; display: flex; gap: 2rem; align-items: center;">
+                <span style="color: var(--text-muted);">Filters:</span>
+                <select id="category-filter" class="glass" style="padding: 0.5rem; color: white;">
+                    <option value="all">All Categories</option>
+                </select>
+                <input type="text" id="search-bar" placeholder="Search products..." class="glass" style="padding: 0.5rem 1rem; color: white; flex: 1;">
+            </div>
+        </header>
+
+        <div class="grid" id="products-grid">
+            <!-- Products will be loaded here -->
+        </div>
+    </section>
+
+    <script src="js/main.js"></script>
+    <script>
+        let allProducts = [];
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const categoryId = urlParams.get('category');
+
+            await loadCategories();
+            await loadProducts(categoryId);
+
+            document.getElementById('category-filter').addEventListener('change', (e) => {
+                filterProducts(e.target.value, document.getElementById('search-bar').value);
+            });
+
+            document.getElementById('search-bar').addEventListener('input', (e) => {
+                filterProducts(document.getElementById('category-filter').value, e.target.value);
+            });
+            
+            updateCartCount();
+        });
+
+        async function loadCategories() {
+            const response = await fetch('http://localhost:5000/api/categories');
+            const categories = await response.json();
+            const filter = document.getElementById('category-filter');
+            categories.forEach(cat => {
+                const opt = document.createElement('option');
+                opt.value = cat.id;
+                opt.textContent = cat.name;
+                filter.appendChild(opt);
+            });
+        }
+
+        async function loadProducts(catId) {
+            const response = await fetch('http://localhost:5000/api/products');
+            allProducts = await response.json();
+            if (catId) {
+                document.getElementById('category-filter').value = catId;
+                filterProducts(catId, '');
+            } else {
+                renderProducts(allProducts);
+            }
+        }
+
+        function filterProducts(catId, search) {
+            let filtered = allProducts;
+            if (catId !== 'all') {
+                filtered = filtered.filter(p => p.category_id == catId);
+            }
+            if (search) {
+                filtered = filtered.filter(p => p.name.toLowerCase().includes(search.toLowerCase()));
+            }
+            renderProducts(filtered);
+        }
+
+        function renderProducts(products) {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = products.map(p => `
+                <div class="product-card animate">
+                    <div style="position: relative;">
+                        <a href="product.html?id=${p.id}">
+                            <img src="${p.image_url}" alt="${p.name}" class="product-image">
+                        </a>
+                        <div style="position: absolute; top: 10px; right: 10px; background: white; padding: 5px; border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow);">
+                            <i class="far fa-heart" style="color: var(--text-muted);"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 style="margin-bottom: 2px;">${p.name}</h3>
+                        <p class="brand">${p.category_name} Collection</p>
+                        <p class="price">Rs. ${Math.round(p.price * 80)} <span style="font-size: 0.8rem; text-decoration: line-through; color: var(--text-muted); font-weight: 400; margin-left: 5px;">Rs. ${Math.round(p.price * 120)}</span></p>
+                        <button class="btn btn-primary" style="width: 100%; margin-top: 1rem; font-size: 0.8rem; padding: 0.6rem;" onclick="addToCart(${p.id}, '${p.name}', ${p.price}, '${p.image_url}')">Add to Cart</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+    </script>
+</body>
+</html>

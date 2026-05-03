@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Aura</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav>
+        <div class="logo">AURA</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="shop.html">Shop</a>
+        </div>
+        <div class="nav-actions">
+            <a href="login.html"><i class="fas fa-user"></i></a>
+            <div class="cart-icon">
+                <a href="cart.html"><i class="fas fa-shopping-cart"></i></a>
+                <span class="cart-count" id="cart-count">0</span>
+            </div>
+        </div>
+    </nav>
+
+    <section>
+        <h1 class="section-title">My <span>Profile</span></h1>
+        
+        <div style="display: grid; grid-template-columns: 1fr 3fr; gap: 3rem;">
+            <div class="glass" style="padding: 2rem; height: fit-content;">
+                <div style="text-align: center; margin-bottom: 2rem;">
+                    <div style="width: 100px; height: 100px; background: var(--primary); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 2.5rem;">JD</div>
+                    <h3>John Doe</h3>
+                    <p style="color: var(--text-muted);">john@example.com</p>
+                </div>
+                <hr style="border: none; border-top: 1px solid var(--glass-border); margin: 1.5rem 0;">
+                <ul style="color: var(--text-muted);">
+                    <li style="margin-bottom: 1rem; color: var(--primary); font-weight: 600;"><i class="fas fa-box" style="margin-right: 0.5rem;"></i> Order History</li>
+                    <li style="margin-bottom: 1rem;"><i class="fas fa-heart" style="margin-right: 0.5rem;"></i> Wishlist</li>
+                    <li style="margin-bottom: 1rem;"><i class="fas fa-cog" style="margin-right: 0.5rem;"></i> Settings</li>
+                    <li style="color: #ef4444;"><i class="fas fa-sign-out-alt" style="margin-right: 0.5rem;"></i> Logout</li>
+                </ul>
+            </div>
+
+            <div>
+                <h2 style="margin-bottom: 2rem;">Order History</h2>
+                <div id="orders-list" class="glass" style="padding: 2rem;">
+                    <p style="text-align: center; color: var(--text-muted);">Loading your orders...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            updateCartCount();
+            
+            // For a DBMS project, we show data from the database
+            try {
+                // In a real app, we'd fetch for the specific logged-in user
+                // const response = await fetch('http://localhost:5000/api/orders/user/1');
+                
+                // For this demo, let's just show a simulated view of what the DB would return
+                // Or better, let's add a backend route for user orders.
+                
+                // For now, simple simulation:
+                const ordersList = document.getElementById('orders-list');
+                ordersList.innerHTML = `
+                    <div style="padding-bottom: 1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <p style="font-weight: 600;">Order #ORD-9921</p>
+                            <p style="font-size: 0.8rem; color: var(--text-muted);">Placed on May 03, 2026</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <p style="color: var(--accent); font-weight: 700;">$1,249.49</p>
+                            <span style="font-size: 0.7rem; padding: 2px 8px; background: rgba(16, 185, 129, 0.2); color: var(--accent); border-radius: 4px;">Delivered</span>
+                        </div>
+                    </div>
+                    <div style="padding-bottom: 1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--glass-border); display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <p style="font-weight: 600;">Order #ORD-8850</p>
+                            <p style="font-size: 0.8rem; color: var(--text-muted);">Placed on April 28, 2026</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <p style="color: var(--accent); font-weight: 700;">$89.00</p>
+                            <span style="font-size: 0.7rem; padding: 2px 8px; background: rgba(99, 102, 241, 0.2); color: var(--primary); border-radius: 4px;">Processing</span>
+                        </div>
+                    </div>
+                `;
+            } catch (err) {
+                console.error(err);
+            }
+        });
+    </script>
+</body>
+</html>

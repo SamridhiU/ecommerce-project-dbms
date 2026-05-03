@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - Aura</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav>
+        <div class="logo">AURA</div>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="shop.html">Shop</a>
+        </div>
+        <div class="nav-actions">
+            <a href="login.html"><i class="fas fa-user"></i></a>
+            <div class="cart-icon">
+                <a href="cart.html"><i class="fas fa-shopping-cart"></i></a>
+                <span class="cart-count" id="cart-count">0</span>
+            </div>
+        </div>
+    </nav>
+
+    <section id="product-details">
+        <div class="grid" style="grid-template-columns: 1fr 1fr; align-items: start; gap: 4rem;">
+            <div class="glass" style="padding: 1rem; border-radius: 20px;">
+                <img id="p-image" src="" alt="" style="width: 100%; border-radius: 16px;">
+            </div>
+            <div>
+                <span id="p-category" class="category-tag">Category</span>
+                <h1 id="p-name" style="font-size: 3rem; margin: 1rem 0;">Product Name</h1>
+                <p id="p-price" class="price" style="font-size: 2rem; margin-bottom: 2rem;">$0.00</p>
+                <div class="glass" style="padding: 2rem; margin-bottom: 2rem;">
+                    <h3>Description</h3>
+                    <p id="p-desc" style="color: var(--text-muted); margin-top: 1rem;">Loading description...</p>
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <button class="btn btn-primary" style="flex: 2; padding: 1.2rem;" id="add-btn">Add to Cart</button>
+                    <button class="btn glass" style="flex: 1;"><i class="far fa-heart"></i></button>
+                </div>
+                <div style="margin-top: 2rem; display: flex; gap: 2rem;">
+                    <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); font-size: 0.9rem;">
+                        <i class="fas fa-truck"></i> Free Shipping
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-muted); font-size: 0.9rem;">
+                        <i class="fas fa-undo"></i> 30-Day Returns
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            if (!productId) { window.location.href = 'shop.html'; return; }
+
+            try {
+                const response = await fetch(`http://localhost:5000/api/products/${productId}`);
+                const p = await response.json();
+                
+                document.getElementById('p-image').src = p.image_url;
+                document.getElementById('p-name').textContent = p.name;
+                document.getElementById('p-price').textContent = `Rs. ${Math.round(p.price * 80)}`;
+                document.getElementById('p-desc').textContent = p.description;
+                document.getElementById('p-category').textContent = p.category_name;
+                
+                document.getElementById('add-btn').onclick = () => addToCart(p.id, p.name, p.price, p.image_url);
+            } catch (err) {
+                console.error(err);
+            }
+            updateCartCount();
+        });
+    </script>
+</body>
+</html>
